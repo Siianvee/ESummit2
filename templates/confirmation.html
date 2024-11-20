@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Confirmed</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f7f9fc;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .alert-success {
+            background-color: #3cb371;
+            color: #fff;
+            border-radius: 8px;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5 text-center">
+    <div class="alert alert-success shadow-lg">
+        <h4 class="alert-heading">Thank You for Registering!</h4>
+        <p>Your registration has been confirmed. Check your email for your unique ticket code.</p>
+        <hr>
+        <a href="{% url 'home' %}" class="btn btn-primary mt-3">Back to Home</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrieve Ticket</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f7f9fc;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .card {
+            background-color: #fff;
+            color: #333;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 500px;
+            margin: auto;
+            margin-top: 50px;
+        }
+        .btn-primary {
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 3px 10px rgba(0, 123, 255, 0.2);
+        }
+        #popupNotification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1050; /* Ensure it's on top of other elements */
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Retrieve Your Ticket</h2>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'fetch_ticket' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="email">Enter your registered email</label>
+                    <input type="email" name="email" class="form-control" id="email" placeholder="example@domain.com" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Send Ticket</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Email Not Found Alert -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    {% if email_not_found %}
+    window.onload = function() {
+        var popup = document.getElementById("popupNotification");
+        popup.style.display = "block"; // Show the popup
+        setTimeout(function() {
+            popup.style.display = "none"; // Hide after 5 seconds
+        }, 5000); 
+    }
+    {% endif %}
+</script>
+
+</body>
+</html>

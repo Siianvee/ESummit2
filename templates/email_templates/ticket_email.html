@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; }
+        .container { width: 90%; max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px; }
+        .header { text-align: center; color: #007bff; }
+        .qr-section { text-align: center; margin-top: 20px; }
+        .footer { margin-top: 30px; font-size: 0.9em; text-align: center; color: #777; }
+        .button { background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="header">Welcome to E-Summit 2024, {{ user.name }}!</h2>
+        <p>Thank you for registering for E-Summit 2024. We are thrilled to have you join us for an incredible journey into innovation and entrepreneurship.</p>
+        
+        <p>Your unique ticket code is: <strong>{{ ticket_code }}</strong></p>
+        <p>Please find your entry QR code attached to this email. Show this at the entrance for a smooth check-in.</p>
+        <p>You may also use this QR for availing discount on nearby accommodations.</p>
+        
+        <div class="footer">
+            <p>Looking forward to seeing you at E-Summit 2024!</p>
+        </div>
+    </div>
+</body>
+</html>

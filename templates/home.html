@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Summit 2024 - Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"> <!-- AOS for animations -->
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+        .navbar-brand, .nav-link {
+            font-weight: bold;
+        }
+        .jumbotron {
+            background: linear-gradient(135deg, #007bff, #6c63ff);
+            color: #fff;
+        }
+        .section-title {
+            font-size: 2rem;
+            margin: 30px 0 15px;
+            color: #007bff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .card {
+            display: block;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            color: #333;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Custom Colors for Different Cards */
+        .sponsor-card { background-color: #ffefef; }  /* Light Red for Sponsors */
+        .partner-card { background-color: #e6f7ff; }  /* Light Blue for Partners */
+        .panel-card {
+            background-color: #e7f9ed;  /* Light Green for Panels */
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        /* Card hover effect for panel cards only */
+        .panel-card:hover {
+            transform: translateY(-8px);
+        }
+
+        /* Ensure the panel title text is bigger */
+        .panel-card .card-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* Styling for the panelist images inside the panel cards */
+        .panel-card .card-body .row img {
+            width: 120px;      /* Increase the size of panelist images */
+            height: 120px;
+            object-fit: cover; /* Maintain aspect ratio */
+            border-radius: 50%; /* Circular shape */
+        }
+
+        /* Text styling inside panel card */
+        .panel-card .card-text {
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        /* Adjust padding and spacing inside the panel card */
+        .panel-card .card-body {
+            padding: 20px;
+        }
+
+        /* Ensure the panelist section is properly spaced inside the panel card */
+        .panel-card .card-body .row {
+            margin-top: 15px;
+            justify-content: space-around;
+        }
+
+        /* Adjust the spacing for each column in the panelist section */
+        .panel-card .card-body .row .col-4 {
+            margin-bottom: 15px;
+        }
+
+        /* Event Day Colors */
+        .day1-card { background-color: #ffebcc; }  /* Light Orange for Day 1 */
+        .day2-card { background-color: #d6f5d6; }  /* Light Green for Day 2 */
+        .day3-card { background-color: #d9e2f3; }  /* Light Blue for Day 3 */
+
+        /* Timestamp styling */
+        .event-timestamp {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: bold;
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        /* Scroll-to-Top Button */
+        #backToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            z-index: 1000;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            padding: 10px 15px;
+            border: none;
+            font-size: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Spinner Overlay */
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none; /* Hidden initially */
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        /* Popup notifications */
+        #popupNotification, #popupDuplicateEmail {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1050;
+            display: none; /* Hidden by default */
+        }
+
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            color: #007bff;
+            text-decoration: underline;
+        }
+        footer p, footer h5 {
+            margin: 0;
+            padding: 0;
+        }
+        .brand-highlight {
+            font-weight: bold;
+            font-size: 1.5em;
+            color: #FFD700;
+            background-color: #FFD700; /* Example color; adjust as needed */
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            box-shadow: 0px 3px 6px rgba(0, 123, 255, 0.3); /* Optional: subtle shadow */
+        }
+
+    </style>
+
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <a class="navbar-brand brand-highlight" href="#">E-Summit 2024</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="eventsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Events</a>
+                <div class="dropdown-menu" aria-labelledby="eventsDropdown">
+                    <a class="dropdown-item" href="#day1">Day 1</a>
+                    <a class="dropdown-item" href="#day2">Day 2</a>
+                    <a class="dropdown-item" href="#day3">Day 3</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle btn btn-primary text-white" href="#" id="registerDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Register</a>
+                <div class="dropdown-menu" aria-labelledby="registerDropdown">
+                    <a class="dropdown-item" href="{% url 'register' %}">Register Now</a>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#fetchTicketModal">Retrieve Ticket</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Header Section -->
+<div id="home" class="jumbotron text-center">
+    <h1 class="display-4">Welcome to E-Summit 2024</h1>
+    <p class="lead">Join us for an unforgettable journey into the world of entrepreneurship and innovation.</p>
+    <a href="{% url 'register' %}" class="btn btn-warning btn-lg mt-3">Register Now</a>
+</div>
+
+<!-- About the Summit Section -->
+<div id="about" class="container my-5" data-aos="fade-up">
+    <h2 class="section-title">About the Summit</h2>
+    <p class="text-center">The E-Summit 2024, titled 'Skyward Bound: The Ultimate Mobility Experience,' is where innovation meets ambition. Bringing together visionaries, industry leaders, and future-forward startups, this three-day event explores cutting-edge advancements in mobility, aerospace, and entrepreneurial technology. Join us to experience hands-on workshops, immersive panel discussions, and exclusive networking sessions with pioneers shaping the future of mobility. Get ready to ignite ideas, build impactful connections, and be part of the innovation that will define tomorrow's world.</p>
+</div>
+
+<!-- Event Timeline Section with Colored Cards and Timestamps -->
+<div class="container">
+    <h2 class="section-title">Event Timeline</h2>
+
+    <!-- Day 1 Events -->
+    <div id="day1" class="card event-card day1-card mb-4" data-aos="fade-left">
+        <div class="event-timestamp">9:00 AM - 6:00 PM</div>
+        <div class="card-body">
+            <h3 class="text-primary">Day 1 - Exploring New Frontiers</h3>
+            <ul>
+                <li><strong>Inauguration Ceremony:</strong> 9:00 AM - 10:00 AM</li>
+                <li><strong>Panel Discussion:</strong> Sky High - Redefining Urban Mobility, 10:30 AM - 12:00 PM</li>
+                <li><strong>Networking Session:</strong> Meet and connect with partners and sponsors, 1:00 PM - 3:00 PM</li>
+                <li><strong>Pitching & Investing Event:</strong> 4:00 PM - 6:00 PM</li>
+                <li><strong>Fun Activity:</strong> VR Adventure Experiences (all day)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Day 2 Events -->
+    <div id="day2" class="card event-card day2-card mb-4" data-aos="fade-right">
+        <div class="event-timestamp">9:00 AM - 6:00 PM</div>
+        <div class="card-body">
+            <h3 class="text-primary">Day 2 - Innovations & Technologies</h3>
+            <ul>
+                <li><strong>Workshop:</strong> Future of Wearable Flight Tech, 9:00 AM - 11:00 AM</li>
+                <li><strong>Panel Discussion:</strong> Taking Flight - Next Generation Personal Mobility, 11:30 AM - 1:00 PM</li>
+                <li><strong>Networking Brunch:</strong> Informal session with panelists, 1:30 PM - 3:00 PM</li>
+                <li><strong>Pitching & Investing Event:</strong> 4:00 PM - 6:00 PM</li>
+                <li><strong>Fun Event:</strong> Drone Racing Competition, 3:00 PM - 5:00 PM</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Day 3 Events -->
+    <div id="day3" class="card event-card day3-card mb-4" data-aos="fade-left">
+        <div class="event-timestamp">9:00 AM - 5:30 PM</div>
+        <div class="card-body">
+            <h3 class="text-primary">Day 3 - Closing Sessions & Awards</h3>
+            <ul>
+                <li><strong>Workshop:</strong> Building a Sustainable Future in Mobility, 9:00 AM - 11:00 AM</li>
+                <li><strong>Panel Discussion:</strong> Investing in Tomorrow's Mobility Startups, 11:30 AM - 1:00 PM</li>
+                <li><strong>Pitching & Investing Finale:</strong> 2:00 PM - 4:00 PM</li>
+                <li><strong>Fun Activity:</strong> Gadget Expo & Hands-on Demos (all day)</li>
+                <li><strong>Closing Ceremony:</strong> 4:30 PM - 5:30 PM</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Sponsors, Partners, and Panelists Sections -->
+<!-- Sponsors Section -->
+<div class="container">
+    <h2 class="section-title">Our Sponsors</h2>
+    <div class="row text-center">
+        {% for sponsor in sponsors %}
+        <div class="col-md-2 mb-4" data-aos="fade-up">
+            <div class="card sponsor-card">
+                <img src="{{ sponsor.logo_url }}" alt="{{ sponsor.name }}" class="img-fluid mt-3" style="max-width: 100px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ sponsor.name }}</h5>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Partners Section -->
+<div class="container">
+    <h2 class="section-title">Our Partners</h2>
+    <div class="row text-center">
+        <!-- First row of 5 partners -->
+        {% for partner in partners|slice:":5" %}
+        <div class="col-md-2 mb-4" data-aos="fade-up">
+            <div class="card partner-card">
+                <img src="{{ partner.logo_url }}" alt="{{ partner.name }}" class="img-fluid mt-3" style="max-width: 100px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ partner.name }}</h5>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row text-center">
+        <!-- Second row of 5 partners -->
+        {% for partner in partners|slice:"5:10" %}
+        <div class="col-md-2 mb-4" data-aos="fade-up">
+            <div class="card partner-card">
+                <img src="{{ partner.logo_url }}" alt="{{ partner.name }}" class="img-fluid mt-3" style="max-width: 100px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ partner.name }}</h5>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Panel Discussions Section -->
+<div class="container">
+    <h2 class="section-title">Panel Discussions</h2>
+    <div class="row">
+        {% for panel in panels %}
+        <div class="col-md-12 mb-4" data-aos="fade-up">
+            <div class="card panel-card" style="border-radius: 12px; padding: 20px;">
+                <div class="card-body">
+                    <h5 class="card-title text-primary" style="font-size: 1.75rem;">{{ panel.topic }}</h5>
+                    <p class="card-text" style="font-size: 1.1rem; color: #555;">{{ panel.description }}</p>
+                    <h6 class="mt-3" style="font-weight: bold;">Panelists:</h6>
+                    <div class="row">
+                        {% for panelist in panel.panelists %}
+                        <div class="col-4 text-center">
+                            <img src="{{ panelist.photo_url }}" alt="{{ panelist.name }}" class="img-fluid rounded-circle mb-2" style="width: 120px; height: 120px; object-fit: cover;">
+                            <p class="font-weight-bold mb-0">{{ panelist.name }}</p>
+                            <small class="text-muted">{{ panelist.position }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- FAQ Section -->
+<div class="container my-5" id="faq">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div class="accordion" id="faqAccordion">
+
+        <!-- Question 1 -->
+        <div class="card">
+            <div class="card-header" id="faq1">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#answer1" aria-expanded="true" aria-controls="answer1">
+                        How do I register for the summit?
+                    </button>
+                </h5>
+            </div>
+            <div id="answer1" class="collapse" aria-labelledby="faq1" data-parent="#faqAccordion">
+                <div class="card-body">
+                    You can register by clicking the "Register Now" button on the homepage or in the navigation bar. Fill in your details on the registration page, and you’ll receive a confirmation email with your ticket.
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="card">
+            <div class="card-header" id="faq2">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#answer2" aria-expanded="false" aria-controls="answer2">
+                        I lost my ticket. What should I do?
+                    </button>
+                </h5>
+            </div>
+            <div id="answer2" class="collapse" aria-labelledby="faq2" data-parent="#faqAccordion">
+                <div class="card-body">
+                    If you lost your ticket, use the "Retrieve Ticket" option on the homepage or the navigation bar. Enter your registered email, and a new copy of your ticket will be sent to you.
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="card">
+            <div class="card-header" id="faq3">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#answer3" aria-expanded="false" aria-controls="answer3">
+                        Will accommodations be provided for attendees?
+                    </button>
+                </h5>
+            </div>
+            <div id="answer3" class="collapse" aria-labelledby="faq3" data-parent="#faqAccordion">
+                <div class="card-body">
+                    While accommodations are not directly provided by the summit, we have partnered with local hotels to offer exclusive discounts for attendees. Details will be shared upon registration.
+                </div>
+            </div>
+        </div>
+
+        <!-- Add more questions as needed -->
+        <div class="card">
+            <div class="card-header" id="faq4">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#answer4" aria-expanded="false" aria-controls="answer4">
+                        Is there a dress code for the event?
+                    </button>
+                </h5>
+            </div>
+            <div id="answer4" class="collapse" aria-labelledby="faq4" data-parent="#faqAccordion">
+                <div class="card-body">
+                    We recommend business casual or formal attire for all attendees to maintain a professional environment.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Scroll-to-Top Button -->
+<button id="backToTopBtn" title="Back to top">↑</button>
+
+<!-- Spinner Overlay -->
+<div class="spinner-overlay" id="spinnerOverlay">
+    <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<!-- Popups for Notifications -->
+<div id="popupNotification" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Email not found!</strong> Please register first.
+</div>
+<div id="popupDuplicateEmail" class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Email already registered!</strong> Try retrieving your ticket.
+</div>
+
+<!-- Modal for Ticket Retrieval -->
+<div class="modal fade" id="fetchTicketModal" tabindex="-1" aria-labelledby="fetchTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fetchTicketModalLabel">Retrieve Your Ticket</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'fetch_ticket' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="email">Enter your registered email</label>
+                        <input type="email" name="email" class="form-control" id="email" placeholder="example@domain.com" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Send Ticket</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init(); 
+
+    // Scroll-to-Top Button
+    const backToTopBtn = document.getElementById("backToTopBtn");
+    window.onscroll = function() {
+        backToTopBtn.style.display = window.scrollY > 300 ? "block" : "none";
+    };
+    backToTopBtn.onclick = function() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    // Show Spinner on form submission
+    function showSpinner() {
+        document.getElementById("spinnerOverlay").style.display = "flex";
+    }
+
+    // Display pop-up for duplicate email on registration
+    {% if duplicate_email %}
+    window.onload = function() {
+        document.getElementById("popupDuplicateEmail").style.display = "block";
+        setTimeout(() => { document.getElementById("popupDuplicateEmail").style.display = "none"; }, 5000);
+    }
+    {% endif %}
+
+    // Display pop-up if email not found during ticket retrieval
+    {% if email_not_found %}
+    window.onload = function() {
+        document.getElementById("popupNotification").style.display = "block";
+        setTimeout(() => { document.getElementById("popupNotification").style.display = "none"; }, 5000);
+    }
+    {% endif %}
+</script>
+<!-- Footer Section -->
+<footer class="bg-dark text-white py-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- About Section -->
+            <div class="col-md-4 mb-3">
+                <h5>About E-Summit 2024</h5>
+                <p>Join us in exploring the forefront of innovation and entrepreneurship at E-Summit 2024. Engage with industry leaders, attend workshops, and be part of a transformative experience.</p>
+            </div>
+
+            <!-- Quick Links Section -->
+            <div class="col-md-4 mb-3">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#home" class="text-white">Home</a></li>
+                    <li><a href="#about" class="text-white">About</a></li>
+                    <li><a href="#day1" class="text-white">Event Timeline</a></li>
+                    <li><a href="{% url 'register' %}" class="text-white">Register</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Social Media Section -->
+            <div class="col-md-4 mb-3">
+                <h5>Contact Us</h5>
+                <p>Email: siddhant172913@gmail.com</p>
+                <p>Phone: +91 7049383888</p>
+                <div>
+                    <a href="https://facebook.com" class="text-white mr-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" class="text-white mr-3"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" class="text-white mr-3"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <p class="mb-0">&copy; 2024 E-Summit. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- FontAwesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</body>
+</html>
